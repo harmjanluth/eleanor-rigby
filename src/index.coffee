@@ -27,13 +27,12 @@ mongoose.connect uristring, (error, response) ->
 
 		console.log "Succeeded connected to: " + uristring
 	
-	
 # Setup socket.io
 io.on "connection", (socket) ->
 	
 	console.log "Socket.io active.."
 
-	socket.emit "ready", ""
+	socket.emit "ready", {}
 
 	socket.on "query", (data) ->
 
