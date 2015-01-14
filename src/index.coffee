@@ -44,7 +44,7 @@ io.on "connection", (socket) ->
 
 		mongoose.connection.collection( "queries" ).insert( query, (err,result) ->
 
-			console.log result
+			console.log result, err
 		)
 
 
