@@ -1,27 +1,48 @@
-var app, express, mongoose, uristring;
+var app, io, mongo, mongoose, server, uristring;
 
-express = require("express");
+app = require("express")();
 
-app = express();
+server = require("http").Server(app);
+
+io = require("socket.io").listen(server);
 
 mongoose = require("mongoose");
+
+mongo = require("mongodb");
 
 uristring = process.env.MONGOLAB_URI || "mongodb://localhost/pineapple";
 
 app.set("port", process.env.PORT || 5000);
 
 app.get("/", function(request, response) {
-  response.send("[eleanor-rigby:tst]");
+  return response.sendFile(__dirname + '/client.html');
 });
 
-mongoose.connect(uristring, function(err, res) {
-  if (err) {
-    console.log("ERROR connecting to: " + uristring + ". " + err);
+mongoose.connect(uristring, function(error, response) {
+  if (error) {
+    return console.log("ERROR connecting to: " + uristring + ". " + error);
   } else {
-    console.log("Succeeded connected to: " + uristring);
+    return console.log("Succeeded connected to: " + uristring);
   }
 });
 
-app.listen(app.get("port"), function() {
-  console.log("Node app is running at localhost:" + app.get("port"));
+io.on("connection", function(socket) {
+  console.log("Socket.io active..");
+  socket.emit("ready", {});
+  return socket.on("query", function(data) {
+    var ObjectID, query;
+    ObjectID = mongo.ObjectID;
+    query = {
+      date: new Date().toString(),
+      text: data,
+      _id: new ObjectID()
+    };
+    return mongoose.connection.collection("queries").insert(query, function(err, result) {
+      return console.log(result);
+    });
+  });
+});
+
+server.listen(app.get("port"), function() {
+  return console.log("App is running at port:" + app.get("port"));
 });
