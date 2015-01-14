@@ -7,13 +7,14 @@ mongo 				= require( "mongodb" )
 
 # Setup globals
 uristring 			= process.env.MONGOLAB_URI or "mongodb://localhost/pineapple"
+base_directory		= process.env.PWD or __dirname
 
 # Set port (heroku)
 app.set "port", ( process.env.PORT or 5000 )
 
 # Serve index page
 app.get "/", ( request, response ) ->
-	response.sendFile(__dirname + '/client.html')
+	response.sendFile( base_directory + "/client.html" )
 
 # Setup mongo(ose) database
 mongoose.connect uristring, (error, response) ->
