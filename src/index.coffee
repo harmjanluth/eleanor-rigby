@@ -7,7 +7,7 @@ mongo 				= require( "mongodb" )
 
 # Setup globals
 uristring 			= process.env.MONGOLAB_URI or "mongodb://localhost/pineapple"
-base_directory		= process.env.PWD or __dirname
+base_directory		= process.cwd() or __dirname
 
 # Set port (heroku)
 app.set "port", ( process.env.PORT or 5000 )
