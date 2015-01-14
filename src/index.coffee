@@ -15,7 +15,6 @@ app.set "port", ( process.env.PORT or 5000 )
 app.get "/", ( request, response ) ->
 	response.sendFile(__dirname + '/client.html')
 
-
 # Setup mongo(ose) database
 mongoose.connect uristring, (error, response) ->
 	
