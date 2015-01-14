@@ -20,7 +20,9 @@
     "express": "^4.11.0",
     "grunt-contrib-coffee": "^0.12.0",
     "grunt-contrib-watch": "^0.6.1",
-    "mongoose": "^3.8.21"
+    "mongodb": "^1.4.28",
+    "mongoose": "^3.8.21",
+    "socket.io": "^1.2.1"
   },
   "devDependencies": {
     "grunt-nodemon": "^0.3.0"
