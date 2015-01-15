@@ -8,14 +8,14 @@ mongo 				= require( "mongodb" )
 # Setup globals
 isHeroku			= process.env.IS_HEROKU || false
 uristring 			= process.env.MONGOLAB_URI or "mongodb://localhost/pineapple"
-base_directory		= ( process.cwd() or __dirname ) + ( if isHeroku then "/build" else "" )
+base_directory		= if isHeroku then ( process.cwd() + "/build" ) else __dirname
 
 # Set port (heroku)
 app.set "port", ( process.env.PORT or 5000 )
 
 # Serve index page
 app.get "/", ( request, response ) ->
-	response.sendFile( base_directory + "/client.html" )
+	response.sendFile( __dirname + "/client.html" )
 
 # Setup mongo(ose) database
 mongoose.connect uristring, (error, response) ->
@@ -33,8 +33,10 @@ io.on "connection", (socket) ->
 	
 	console.log "Socket.io active.."
 
+	# Send ready trigger
 	socket.emit "ready", {}
 
+	# Retrieve query input
 	socket.on "query", (data) ->
 
 		ObjectID = mongo.ObjectID

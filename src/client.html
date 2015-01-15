@@ -1,11 +1,11 @@
 <html>
 <body>
-
+ [ss:client]
 
 <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
 <script>
 	
-	var socket = io.connect( document.location.origin + ':5000');
+	var socket = io.connect( document.location.origin );
 
 	socket.on("ready",function(data){
     	socket.emit('query', prompt("Wat is je vraag?"));
