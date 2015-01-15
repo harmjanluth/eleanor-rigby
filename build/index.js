@@ -1,4 +1,4 @@
-var app, base_directory, io, mongo, mongoose, server, uristring;
+var app, base_directory, io, isHeroku, mongo, mongoose, server, uristring;
 
 app = require("express")();
 
@@ -10,11 +10,11 @@ mongoose = require("mongoose");
 
 mongo = require("mongodb");
 
+isHeroku = process.env.IS_HEROKU || false;
+
 uristring = process.env.MONGOLAB_URI || "mongodb://localhost/pineapple";
 
-base_directory = process.cwd() || __dirname;
-
-console.log("Base directory is set to " + base_directory);
+base_directory = (process.cwd() || __dirname) + (isHeroku ? "/build" : "");
 
 app.set("port", process.env.PORT || 5000);
 

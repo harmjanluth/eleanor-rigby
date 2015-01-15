@@ -6,10 +6,9 @@ mongoose 			= require( "mongoose" )
 mongo 				= require( "mongodb" )
 
 # Setup globals
+isHeroku			= process.env.IS_HEROKU || false
 uristring 			= process.env.MONGOLAB_URI or "mongodb://localhost/pineapple"
-base_directory		= process.cwd() or __dirname
-
-console.log "Base directory is set to " + base_directory
+base_directory		= ( process.cwd() or __dirname ) + ( if isHeroku then "/build" else "" )
 
 # Set port (heroku)
 app.set "port", ( process.env.PORT or 5000 )
