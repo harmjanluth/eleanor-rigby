@@ -53,4 +53,5 @@ io.on "connection", (socket) ->
 
 # Serve app
 server.listen app.get( "port" ), ->
+	
 	console.log "App is running at port:" + app.get( "port" )

@@ -1,4 +1,4 @@
-var app, io, mongo, mongoose, server, uristring;
+var app, base_directory, io, mongo, mongoose, server, uristring;
 
 app = require("express")();
 
@@ -12,10 +12,14 @@ mongo = require("mongodb");
 
 uristring = process.env.MONGOLAB_URI || "mongodb://localhost/pineapple";
 
+base_directory = process.cwd() || __dirname;
+
+console.log("Base directory is set to " + base_directory);
+
 app.set("port", process.env.PORT || 5000);
 
 app.get("/", function(request, response) {
-  return response.sendFile(__dirname + '/client.html');
+  return response.sendFile(base_directory + "/client.html");
 });
 
 mongoose.connect(uristring, function(error, response) {
@@ -38,7 +42,7 @@ io.on("connection", function(socket) {
       _id: new ObjectID()
     };
     return mongoose.connection.collection("queries").insert(query, function(err, result) {
-      return console.log(result);
+      return console.log(result, err);
     });
   });
 });
