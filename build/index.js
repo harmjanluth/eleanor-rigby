@@ -14,12 +14,12 @@ isHeroku = process.env.IS_HEROKU || false;
 
 uristring = process.env.MONGOLAB_URI || "mongodb://localhost/pineapple";
 
-base_directory = (process.cwd() || __dirname) + (isHeroku ? "/build" : "");
+base_directory = isHeroku ? process.cwd() + "/build" : __dirname;
 
 app.set("port", process.env.PORT || 5000);
 
 app.get("/", function(request, response) {
-  return response.sendFile(base_directory + "/client.html");
+  return response.sendFile(__dirname + "/client.html");
 });
 
 mongoose.connect(uristring, function(error, response) {
