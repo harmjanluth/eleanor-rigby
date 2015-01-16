@@ -18,18 +18,20 @@ exports.init = ( server ) ->
 		# Retrieve query input
 		socket.on "query", ( query ) ->
 
-			# Clean up
-			query = utils.sanitizeQuery( query )
+			if query and typeof query is "string"
 
-			# Check for input
-			if query and query.length and typeof query is "string"
+				# Clean up
+				query = utils.sanitizeQuery( query )
 
-				# Log this query to datastore
-				datastore.logQuery( query )
+				# Check for input
+				if query.length
 
-				# Find handle
-				# 
-				datastore.find query, ( data ) ->
+					# Log this query to datastore
+					datastore.logQuery( query )
 
-					socket.emit "answers", data
+					# Find handle
+					# 
+					datastore.find query, ( data ) ->
+
+						socket.emit "answers", data
 				
