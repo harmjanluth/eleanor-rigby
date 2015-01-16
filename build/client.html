@@ -14,18 +14,14 @@
 	socket.on("ready",function(data){
     	
 		document.getElementById( "button" ).onclick = function() {
-
     		socket.emit('query', prompt("Wat is je vraag?"));
-
     	};
 
 	});
 
 	socket.on( "handles",function(data){
-
 		console.log( "HANDLES FOUND", data );
 	});
-
 
 </script>
 </body>
