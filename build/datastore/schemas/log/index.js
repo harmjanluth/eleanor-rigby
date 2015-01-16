@@ -13,5 +13,9 @@ exports.call = new Schema({
     type: Date,
     "default": Date.now,
     required: false
+  },
+  logged: {
+    type: Array,
+    required: false
   }
 });

@@ -14,4 +14,9 @@ exports.call = new Schema(
 		default : Date.now
 		required: false
 
+	# Create date
+	logged:
+		type: Array
+		required: false
+
 )

@@ -9,14 +9,34 @@ schemas = require("../schemas");
 LogModel = mongoose.model("Log", schemas.log);
 
 exports.call = function(query) {
-  var Log;
-  Log = new LogModel();
-  Log.query = query;
-  return Log.save(function(error) {
+  var lookup;
+  return lookup = LogModel.findOne({
+    query: query
+  }, function(error, data) {
+    var Log;
     if (error) {
-      return console.log("ERROR [could not save log] ", err);
+      console.log(error);
+      return;
+    }
+    if (data) {
+      data.logged.push(new Date().toISOString());
+      return data.save(function(error) {
+        if (error) {
+          return console.log("ERROR [could not save log] ", err);
+        } else {
+          return console.log("STATUS [log updated] ", data);
+        }
+      });
     } else {
-      return console.log("STATUS [log saved] ", Log);
+      Log = new LogModel();
+      Log.query = query;
+      return Log.save(function(error) {
+        if (error) {
+          return console.log("ERROR [could not save log] ", err);
+        } else {
+          return console.log("STATUS [log saved] ", Log);
+        }
+      });
     }
   });
 };
