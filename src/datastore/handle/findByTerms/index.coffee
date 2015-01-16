@@ -33,9 +33,11 @@ exports.call = ( query, callback ) ->
 			$group:
 				_id: "$_id"
 				function:
-					"$addToSet": "$function"
+					$first : "$function"
+				global:
+					$first : "$global"
 				answers:
-					$push: "$answer_ids"
+					$push : "$answer_ids"
 		}
 		{
 			$sort:
