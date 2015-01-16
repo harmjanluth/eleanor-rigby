@@ -35,8 +35,8 @@ exports.call = new Schema(
 		default : Date.now
 		required: true
 
-	# Update date
-	is_global:
+	# Global handle or custom
+	global:
 		type: Boolean
 		default : true
 		required: true

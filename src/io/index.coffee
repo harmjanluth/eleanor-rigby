@@ -16,19 +16,18 @@ exports.init = ( server ) ->
 		socket.emit "ready", {}
 
 		# Retrieve query input
-		socket.on "query", ( data ) ->
+		socket.on "query", ( query ) ->
 
 			# Check for input
-			if data.length and typeof data is "string"
+			if query.length and typeof query is "string"
 
 				# Log this query to datastore
-				datastore.logQuery( data )
+				datastore.logQuery( query )
 
-				# ---------------- FIND EXACT QUESTION
-				
+				# Find handle
+				console.log datastore.handle.find( query )
 
 				# ELSE: ---------------- EXTRACT TERMS
-
-				console.log utils.extractTerms( data )
+				# console.log utils.extractTerms( data )
 
 				

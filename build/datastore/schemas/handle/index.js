@@ -31,7 +31,7 @@ exports.call = new Schema({
     "default": Date.now,
     required: true
   },
-  is_global: {
+  global: {
     type: Boolean,
     "default": true,
     required: true
