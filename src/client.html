@@ -15,15 +15,15 @@
     	
 		document.getElementById( "button" ).onclick = function() {
 
-    		socket.emit('query', prompt("Wat is je vraag?"));
+    		socket.emit('query', prompt("Wat is je vraag?", "mijn"));
 
     	};
 
 	});
 
-	socket.on( "handles",function(data){
+	socket.on( "anwers",function(data){
 
-		console.log( "HANDLES FOUND", data );
+		console.log( "ANSWERS FOUND", data );
 	});
 
 

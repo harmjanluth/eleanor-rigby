@@ -26,9 +26,9 @@ exports.init = ( server ) ->
 
 				# Find handle
 				# 
-				datastore.handle.find query, ( data ) ->
+				datastore.find query, ( data ) ->
 
-					socket.emit "handles", data
+					socket.emit "answers", data
 
 				#console.log "QUERY RESULT:", handles
 

@@ -14,8 +14,8 @@ exports.init = function(server) {
     return socket.on("query", function(query) {
       if (query && query.length && typeof query === "string") {
         datastore.logQuery(query);
-        return datastore.handle.find(query, function(data) {
-          return socket.emit("handles", data);
+        return datastore.find(query, function(data) {
+          return socket.emit("answers", data);
         });
       }
     });
