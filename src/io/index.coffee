@@ -18,6 +18,9 @@ exports.init = ( server ) ->
 		# Retrieve query input
 		socket.on "query", ( query ) ->
 
+			# Clean up
+			query = utils.sanitizeQuery( query )
+
 			# Check for input
 			if query and query.length and typeof query is "string"
 
@@ -29,12 +32,4 @@ exports.init = ( server ) ->
 				datastore.find query, ( data ) ->
 
 					socket.emit "answers", data
-
-				#console.log "QUERY RESULT:", handles
-
-				#socket.emit "handles", handles
-
-				# ELSE: ---------------- EXTRACT TERMS
-				# console.log utils.extractTerms( data )
-
 				

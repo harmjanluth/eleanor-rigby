@@ -12,6 +12,7 @@ exports.init = function(server) {
     console.log("STATUS [socket.io intialized]");
     socket.emit("ready", {});
     return socket.on("query", function(query) {
+      query = utils.sanitizeQuery(query);
       if (query && query.length && typeof query === "string") {
         datastore.logQuery(query);
         return datastore.find(query, function(data) {

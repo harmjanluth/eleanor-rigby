@@ -1,5 +1,6 @@
 # Initialize
 extractTerms 				= require( "./extractTerms" )
+sanitizeQuery 				= require( "./sanitizeQuery" )
 
-# Expose filter list
 exports.extractTerms 		= extractTerms.call
+exports.sanitizeQuery		= sanitizeQuery.call
