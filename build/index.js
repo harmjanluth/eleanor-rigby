@@ -10,9 +10,7 @@ utils = require("./utils");
 
 base_directory = process.env.IS_HEROKU ? process.cwd() + "/build" : __dirname;
 
-app.set("port", process.env.PORT || 5000);
-
-app.get("/", function(request, response) {
+app.set("port", process.env.PORT || 5000).get("/", function(request, response) {
   return response.sendFile(__dirname + "/client.html");
 });
 

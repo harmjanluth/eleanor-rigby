@@ -18,13 +18,11 @@ exports.init = ( server ) ->
 		# Retrieve query input
 		socket.on "query", ( data ) ->
 
-			if data
+			# Check for input
+			if data.length and typeof data is "string"
 
 				# Log this query to datastore
 				datastore.logQuery( data )
-
-
-				
 
 				# ---------------- FIND EXACT QUESTION
 				

@@ -12,7 +12,7 @@ exports.init = function(server) {
     console.log("STATUS [socket.io intialized]");
     socket.emit("ready", {});
     return socket.on("query", function(data) {
-      if (data) {
+      if (data.length && typeof data === "string") {
         datastore.logQuery(data);
         return console.log(utils.extractTerms(data));
       }

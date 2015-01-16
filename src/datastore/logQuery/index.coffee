@@ -1,16 +1,20 @@
 mongoose 			= require( "mongoose" )
 mongo 				= require( "mongodb" )
+schemas 			= require( "../schemas" )
+
+LogModel 			= mongoose.model( "Log", schemas.log )
 
 exports.call = ( query ) ->
 
-	ObjectID 	= mongo.ObjectID
-	
-	query =
-		date : new Date().toString()
-		text : query
-		_id  : new ObjectID()
+	Log 		= new LogModel()
+	Log.query 	= query
 
-	mongoose.connection.collection( "queries" ).insert( query, ( err,result ) ->
+	# Save this log
+	Log.save( ( error ) ->
 
-		console.log result, err
+		if error
+			console.log "ERROR [could not save log] ", err
+		else
+			console.log "STATUS [log saved] ", Log
+
 	)
