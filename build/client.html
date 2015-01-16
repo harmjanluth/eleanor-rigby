@@ -2,13 +2,21 @@
 <body>
  [ss:client]
 
+ <button id="button">Ask</button>
+
 <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
 <script>
 	
 	var socket = io.connect( document.location.origin );
 
 	socket.on("ready",function(data){
-    	socket.emit('query', prompt("Wat is je vraag?"));
+    	
+		document.getElementById( "button" ).onclick = function() {
+
+    		socket.emit('query', prompt("Wat is je vraag?"));
+
+    	};
+
 	});
 
 </script>

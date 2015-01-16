@@ -17,22 +17,17 @@ module.exports = (grunt) ->
 			app:
 				files: 'src/**/*.coffee'
 				tasks: 'coffee'
-		nodemon:
-			dev:
-				script: 'index.js'
 		copy:
 			main:
 				expand: true
 				cwd: 'src'
 				dest: 'build'
 				src: [ 'client.html' ]
-	
+
 	# These plugins provide necessary tasks.
 	grunt.loadNpmTasks 'grunt-contrib-coffee'
 	grunt.loadNpmTasks 'grunt-contrib-watch'
-	grunt.loadNpmTasks 'grunt-nodemon'
 	grunt.loadNpmTasks 'grunt-contrib-copy'
-	
 		
 	# Default task.
 	grunt.registerTask 'build', [ 'coffee', 'copy' ]
