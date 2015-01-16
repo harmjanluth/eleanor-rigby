@@ -5,9 +5,7 @@ utils 				= require( "../../utils" )
 
 HandleModel 		= mongoose.model( "Handle", schemas.handle )
 
-exports.find = ( query ) ->
-
-	result = []
+exports.find = ( query, callback ) ->
 
 	# Handle 				= new HandleModel()
 	# Handle.global			= true
@@ -20,57 +18,65 @@ exports.find = ( query ) ->
 	# 		console.log "ERROR [could not save handle] ", error
 	# 	else
 	# 		console.log "STATUS [handle saved] ", Handle
-
 	# )
 
-	lookup = HandleModel.find({ query : query }, ( error, data ) ->
-		
-		console.log error if error
-		console.log "RESULT [handles found: ]" + data
+	lookup = HandleModel.find( query : query ).exec()
 
-		result = data
+	lookup.then( ( data ) ->
+
+		console.log "LOOKUP BY QUER!!!!!Y"
+
+		if data.length
+
+			callback( data )
+
+		else
+			findByTerms( query, callback )
 	)
+	
 
-	if not result.length
+findByTerms = ( query, callback ) ->
 
-		console.log "STATUS [no query handles found, looking for terms..]"
+	console.log "STATUS [no query handles found, looking for terms..]"
 
-		# Get terms from query
-		terms = utils.extractTerms( query )
+	# Get terms from query
+	terms = utils.extractTerms( query )
 
-		# Search in tags
-		HandleModel.aggregate([
-			{
-				$match:
-					terms:
-						$in: terms
-					type: "terms"
-			}
-			{
-				$unwind: "$terms"
-			}
-			{
-				$match:
-					terms:
-						$in: terms
-			}
-			{
-				$limit: 1
-			}
-			{
-				$group:
-					_id: "$_id"
-					answers:
-						$push: "$answer_ids"
-			}
-			{
-				$sort:
-					matches: -1
-			}
-		], ( error, result ) ->
+	# Search in tags
+	HandleModel.aggregate([
+		{
+			$match:
+				terms:
+					$in: terms
+				type: "terms"
+		}
+		{
+			$unwind: "$terms"
+		}
+		{
+			$match:
+				terms:
+					$in: terms
+		}
+		{
+			$limit: 1
+		}
+		{
+			$group:
+				_id: "$_id"
+				answers:
+					$push: "$answer_ids"
+		}
+		{
+			$sort:
+				matches: -1
+		}
+	], ( error, data ) ->
 
-			if error
-				console.log error 
-			else
-				console.log "RESULT [handles found: ]", result
-		)
+		if error
+			console.log error
+			return
+		else
+			console.log "RESULT [handles:terms found: ]", data
+			callback( data )
+	)

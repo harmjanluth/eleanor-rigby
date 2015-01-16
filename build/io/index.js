@@ -12,8 +12,10 @@ exports.init = function(server) {
     console.log("STATUS [socket.io intialized]");
     socket.emit("ready", {});
     return socket.on("query", function(query) {
-      if (query.length && typeof query === "string") {
-        return console.log(datastore.handle.find(query));
+      if (query && query.length && typeof query === "string") {
+        return datastore.handle.find(query, function(data) {
+          return socket.emit("handles", data);
+        });
       }
     });
   });
