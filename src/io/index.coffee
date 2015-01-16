@@ -22,7 +22,7 @@ exports.init = ( server ) ->
 			if query.length and typeof query is "string"
 
 				# Log this query to datastore
-				datastore.logQuery( query )
+				# datastore.logQuery( query )
 
 				# Find handle
 				console.log datastore.handle.find( query )

@@ -13,7 +13,6 @@ exports.init = function(server) {
     socket.emit("ready", {});
     return socket.on("query", function(query) {
       if (query.length && typeof query === "string") {
-        datastore.logQuery(query);
         return console.log(datastore.handle.find(query));
       }
     });
