@@ -1,5 +1,5 @@
-var filter;
+var extractTerms;
 
-filter = require("./filter")();
+extractTerms = require("./extractTerms");
 
-exports.filter = filter;
+exports.extractTerms = extractTerms.call;

@@ -1,8 +1,10 @@
 datastore 			= require( "../datastore" )
+utils 				= require( "../utils" )
 io 					= null
 
 exports.init = ( server ) ->
 
+	# connect
 	io = require( "socket.io" ).listen( server )
 
 	# Setup socket.io
@@ -21,21 +23,14 @@ exports.init = ( server ) ->
 				# Log this query to datastore
 				datastore.logQuery( data )
 
+
+				
+
 				# ---------------- FIND EXACT QUESTION
 				
 
 				# ELSE: ---------------- EXTRACT TERMS
 
-				# extracts 	= data.match(/("[^"]+"|[^"\s]+)/g)
-				# terms 		= []
-				# word 		= ""
-				# i 			= 0
-				# len 		= extracts.length
-				
-				# # Extract terms
-				# while i < len
-				# 	word = extracts[i]
-				# 	terms.push word  if filter.indexOf(word) is -1
-				# 	i++
+				console.log utils.extractTerms( data )
 
-				# console.log terms
+				

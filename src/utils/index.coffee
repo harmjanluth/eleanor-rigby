@@ -1,5 +1,5 @@
 # Initialize
-filter 				= require( "./filter" )()
+extractTerms 				= require( "./extractTerms" )
 
 # Expose filter list
-exports.filter 		= filter
+exports.extractTerms 		= extractTerms.call

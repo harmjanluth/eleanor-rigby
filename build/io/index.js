@@ -1,6 +1,8 @@
-var datastore, io;
+var datastore, io, utils;
 
 datastore = require("../datastore");
+
+utils = require("../utils");
 
 io = null;
 
@@ -11,7 +13,8 @@ exports.init = function(server) {
     socket.emit("ready", {});
     return socket.on("query", function(data) {
       if (data) {
-        return datastore.logQuery(data);
+        datastore.logQuery(data);
+        return console.log(utils.extractTerms(data));
       }
     });
   });
