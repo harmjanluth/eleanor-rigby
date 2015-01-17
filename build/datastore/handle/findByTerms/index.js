@@ -20,18 +20,14 @@ exports.call = function(query, callback) {
           $in: terms
         },
         type: "terms"
-      }
-    }, {
-      $unwind: "$terms"
-    }, {
+      },
+      $unwind: "$terms",
       $match: {
         terms: {
           $in: terms
         }
-      }
-    }, {
-      $limit: 1
-    }, {
+      },
+      $limit: 1,
       $group: {
         _id: "$_id",
         "function": {
@@ -43,8 +39,7 @@ exports.call = function(query, callback) {
         answers: {
           $push: "$answer_ids"
         }
-      }
-    }, {
+      },
       $sort: {
         matches: -1
       }

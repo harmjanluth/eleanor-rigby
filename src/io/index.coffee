@@ -10,7 +10,7 @@ exports.init = ( server ) ->
 	# Setup socket.io
 	io.on "connection", ( socket ) ->
 		
-		console.log "STATUS [socket.io intialized]"
+		console.log "STATUS [socket.io intialized]", socket.id
 
 		# Send ready trigger
 		socket.emit "ready", {}

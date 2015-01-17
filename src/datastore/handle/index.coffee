@@ -12,19 +12,6 @@ HandleModel 		= mongoose.model( "Handle", schemas.handle )
 # Module
 exports.find = ( query, callback ) ->
 
-	# Handle 				= new HandleModel()
-	# Handle.global			= true
-	# Handle.function		= "getTime"
-
-	# Save this log
-	# Handle.save( ( error ) ->
-
-	# 	if error
-	# 		console.log "ERROR [could not save handle] ", error
-	# 	else
-	# 		console.log "STATUS [handle saved] ", Handle
-	# )
-
 	lookup = HandleModel.findOne( query : query ).exec()
 
 	lookup.then( ( data ) ->

@@ -9,7 +9,7 @@ io = null;
 exports.init = function(server) {
   io = require("socket.io").listen(server);
   return io.on("connection", function(socket) {
-    console.log("STATUS [socket.io intialized]");
+    console.log("STATUS [socket.io intialized]", socket.id);
     socket.emit("ready", {});
     return socket.on("query", function(query) {
       if (query && typeof query === "string") {

@@ -12,24 +12,20 @@ exports.call = ( query, callback ) ->
 
 	# Search in tags
 	HandleModel.aggregate([
-		{
+			
 			$match:
 				terms:
 					$in: terms
 				type: "terms"
-		}
-		{
+			
 			$unwind: "$terms"
-		}
-		{
+			
 			$match:
 				terms:
 					$in: terms
-		}
-		{
+			
 			$limit: 1
-		}
-		{
+			
 			$group:
 				_id: "$_id"
 				function:
@@ -38,11 +34,10 @@ exports.call = ( query, callback ) ->
 					$first : "$global"
 				answers:
 					$push : "$answer_ids"
-		}
-		{
+			
 			$sort:
 				matches: -1
-		}
+		
 	], ( error, data ) ->
 
 		if error
