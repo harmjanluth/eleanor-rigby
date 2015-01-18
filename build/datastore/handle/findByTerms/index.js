@@ -13,7 +13,6 @@ HandleModel = mongoose.model("Handle", schemas.handle);
 exports.call = function(query, callback) {
   var terms;
   terms = utils.extractTerms(query);
-  console.log("AGGREGATE..", terms);
   return HandleModel.aggregate([
     {
       $match: {

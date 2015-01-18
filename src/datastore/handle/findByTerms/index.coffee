@@ -10,8 +10,6 @@ exports.call = ( query, callback ) ->
 	# Get terms from query
 	terms = utils.extractTerms( query )
 
-	console.log "AGGREGATE..", terms
-
 	# Search in tags
 	HandleModel.aggregate([
 			
