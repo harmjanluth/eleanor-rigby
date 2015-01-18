@@ -12,7 +12,7 @@ exports.find = ( query, callback ) ->
 
 	handle.find( query, (data) ->
 
-		if data
+		if data && data[0]
 
 			# Return answers
 			if data[0].answer_ids && data[0].answer_ids.length
@@ -25,5 +25,10 @@ exports.find = ( query, callback ) ->
 				console.log "STATUS [triggering function:" + data[0].function + "]"
 
 				callback( data )
+
+		else
+
+			callback( null )
+
 	)
 

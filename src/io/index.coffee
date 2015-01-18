@@ -25,6 +25,8 @@ exports.init = ( server ) ->
 			# Cleanup query
 			query = utils.sanitizeQuery( query )
 
+			console.log "query is", query
+
 			if query and query.length and typeof query is "string"
 
 				# Log this query to datastore

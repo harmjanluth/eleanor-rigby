@@ -17,6 +17,7 @@ exports.init = function(server) {
     socket.no_result_count = 0;
     return socket.on("query", function(query) {
       query = utils.sanitizeQuery(query);
+      console.log("query is", query);
       if (query && query.length && typeof query === "string") {
         return datastore.find(query, function(data) {
           var result;
