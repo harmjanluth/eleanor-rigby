@@ -1,3 +1,5 @@
+# DATASTORE
+
 # Initialize
 connect 			= require( "./connect" )
 logQuery 			= require( "./logQuery" )
@@ -10,18 +12,18 @@ exports.find = ( query, callback ) ->
 
 	handle.find( query, (data) ->
 
-		if data && data[0]
+		if data
 
 			# Return answers
-			if data[0].answers && data[0].answers.length
+			if data[0].answer_ids && data[0].answer_ids.length
 
-				answer.find( data[0].answers, callback )
+				answer.find( data[0].answer_ids, callback )
 
 			# Function
 			else if data[0].function
 
 				console.log "STATUS [triggering function:" + data[0].function + "]"
 
-				callback( data[0] )
+				callback( data )
 	)
 

@@ -16,7 +16,7 @@ exports.find = ( query, callback ) ->
 
 	lookup.then( ( data ) ->
 
-		if data && data.length
+		if data
 
 			callback( data )
 

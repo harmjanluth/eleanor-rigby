@@ -18,7 +18,7 @@ exports.find = function(query, callback) {
     query: query
   }).exec();
   return lookup.then(function(data) {
-    if (data && data.length) {
+    if (data) {
       return callback(data);
     } else {
       return findByTerms(query, callback);

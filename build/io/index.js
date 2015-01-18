@@ -1,8 +1,10 @@
-var datastore, io, utils;
+var ai, datastore, io, utils;
 
 datastore = require("../datastore");
 
 utils = require("../utils");
+
+ai = require("../ai");
 
 io = null;
 
@@ -11,15 +13,25 @@ exports.init = function(server) {
   return io.on("connection", function(socket) {
     console.log("STATUS [socket.io intialized]", socket.id);
     socket.emit("ready", {});
+    socket.empty_count = 0;
+    socket.no_result_count = 0;
     return socket.on("query", function(query) {
-      if (query && typeof query === "string") {
-        query = utils.sanitizeQuery(query);
-        if (query.length) {
-          datastore.logQuery(query);
-          return datastore.find(query, function(data) {
-            return socket.emit("answers", data);
-          });
-        }
+      query = utils.sanitizeQuery(query);
+      if (query && query.length && typeof query === "string") {
+        return datastore.find(query, function(data) {
+          var result;
+          if (data) {
+            socket.no_result_count = 0;
+            result = data;
+          } else {
+            socket.no_result_count++;
+            result = ai.noResult(socket.no_result_count);
+          }
+          return socket.emit("answers", result);
+        });
+      } else {
+        socket.empty_count++;
+        return socket.emit("answers", ai.empty(socket.empty_count));
       }
     });
   });

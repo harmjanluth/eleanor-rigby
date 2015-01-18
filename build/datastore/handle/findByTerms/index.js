@@ -13,35 +13,32 @@ HandleModel = mongoose.model("Handle", schemas.handle);
 exports.call = function(query, callback) {
   var terms;
   terms = utils.extractTerms(query);
+  console.log("AGGREGATE..", terms);
   return HandleModel.aggregate([
     {
       $match: {
         terms: {
           $in: terms
         },
-        type: "terms"
-      },
-      $unwind: "$terms",
+        type: "terms",
+        handle: "answer"
+      }
+    }, {
+      $unwind: "$terms"
+    }, {
       $match: {
         terms: {
           $in: terms
         }
-      },
-      $limit: 1,
+      }
+    }, {
+      $limit: 1
+    }, {
       $group: {
         _id: "$_id",
-        "function": {
-          $first: "$function"
-        },
-        global: {
-          $first: "$global"
-        },
-        answers: {
-          $push: "$answer_ids"
+        answer_ids: {
+          $first: "$answer_ids"
         }
-      },
-      $sort: {
-        matches: -1
       }
     }
   ], function(error, data) {

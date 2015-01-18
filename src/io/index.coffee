@@ -1,5 +1,6 @@
 datastore 			= require( "../datastore" )
 utils 				= require( "../utils" )
+ai 					= require( "../ai" )
 io 					= null
 
 exports.init = ( server ) ->
@@ -15,23 +16,42 @@ exports.init = ( server ) ->
 		# Send ready trigger
 		socket.emit "ready", {}
 
+		socket.empty_count = 0
+		socket.no_result_count = 0
+
 		# Retrieve query input
 		socket.on "query", ( query ) ->
 
-			if query and typeof query is "string"
+			# Cleanup query
+			query = utils.sanitizeQuery( query )
 
-				# Clean up
-				query = utils.sanitizeQuery( query )
+			if query and query.length and typeof query is "string"
 
-				# Check for input
-				if query.length
+				# Log this query to datastore
+				# datastore.logQuery( query )
 
-					# Log this query to datastore
-					datastore.logQuery( query )
+				# Find handle
+				# 
+				datastore.find query, ( data ) ->
 
-					# Find handle
-					# 
-					datastore.find query, ( data ) ->
+					if data
 
-						socket.emit "answers", data
-				
+						# Reset count
+						socket.no_result_count = 0
+						result = data
+
+					else
+
+						socket.no_result_count++
+						result = ai.noResult( socket.no_result_count )
+
+
+					# Emit result
+					socket.emit "answers", result
+
+			else
+
+				# Count questions
+				# 
+				socket.empty_count++
+				socket.emit "answers", ai.empty( socket.empty_count )

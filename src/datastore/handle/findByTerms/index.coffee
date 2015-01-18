@@ -10,34 +10,36 @@ exports.call = ( query, callback ) ->
 	# Get terms from query
 	terms = utils.extractTerms( query )
 
+	console.log "AGGREGATE..", terms
+
 	# Search in tags
 	HandleModel.aggregate([
 			
+		{
 			$match:
 				terms:
 					$in: terms
 				type: "terms"
-			
+				handle: "answer"
+		}
+		{
 			$unwind: "$terms"
-			
+		}
+		{
 			$match:
 				terms:
 					$in: terms
-			
+		}
+		{
 			$limit: 1
-			
+		}
+		{
 			$group:
 				_id: "$_id"
-				function:
-					$first : "$function"
-				global:
-					$first : "$global"
-				answers:
-					$push : "$answer_ids"
-			
-			$sort:
-				matches: -1
-		
+				answer_ids:
+					$first : "$answer_ids"
+		}
+
 	], ( error, data ) ->
 
 		if error
