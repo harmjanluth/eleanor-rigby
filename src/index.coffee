@@ -5,6 +5,7 @@ global.roquire = (name) ->
 # Initialize
 app 				= require( "express" )()
 server				= require( "http" ).Server( app )
+cors 				= require( "cors" )
 
 bunyan 				= require("bunyan")
 global.log 			= bunyan.createLogger(name: "app")
@@ -20,6 +21,7 @@ global.SOCKET		= {}
 
 # Set port (heroku)
 app
+	.use(cors())
 	.set "port", ( process.env.PORT or 5000 )
 	.get "/", ( request, response ) ->
 		response.sendFile( __dirname + "/client.html" )

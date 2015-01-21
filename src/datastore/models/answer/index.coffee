@@ -15,7 +15,7 @@ exports.find = ( ids = null, callback ) ->
 		lookup = AnswerModel.find(
 			_id:
 				$in: ids
-		).exec()
+		).select( "text" ).exec()
 
 		# Get promise
 		lookup.then( ( data ) ->

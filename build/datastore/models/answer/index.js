@@ -22,7 +22,7 @@ exports.find = function(ids, callback) {
       _id: {
         $in: ids
       }
-    }).exec();
+    }).select("text").exec();
     return lookup.then(function(data) {
       if (data.length) {
         return callback(data);
