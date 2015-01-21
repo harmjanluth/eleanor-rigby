@@ -1,1 +1,2 @@
-# eleanor-rigby
+# Eleanor-rigby
+## Socket-IO interface for selfservice

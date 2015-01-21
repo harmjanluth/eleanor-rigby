@@ -6,12 +6,19 @@
 <br/>
  <p id="result">...</p>
 
+<div id="feedback" style="display:none">
+	<button id="good">Good</button>
+	<button id="bad">Bad</button>
+</div>
+
 <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
 <script>
 	
 	var socket = io.connect( document.location.origin );
 
 	socket.on("ready",function(data){
+
+		console.log( "IO socket ready..", socket );
     	
 		document.getElementById( "button" ).onclick = function() {
 
@@ -19,11 +26,30 @@
 
     	};
 
+
+    	document.getElementById( "good" ).onclick = function() {
+
+    		socket.emit('feedback', true );
+    	};
+
+
+    	document.getElementById( "bad" ).onclick = function() {
+
+    		socket.emit('feedback', false );
+    	};
+
+		
+
 	});
 
-	socket.on( "anwers",function(data){
 
-		console.log( "ANSWERS FOUND", data );
+	socket.on("answers",function(data){
+
+		console.log( "ANSWER", data );
+    	
+		
+		
+
 	});
 
 

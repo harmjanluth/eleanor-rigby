@@ -1,7 +1,7 @@
 mongoose 			= require( "mongoose" )
 mongo 				= require( "mongodb" )
-schemas 			= require( "../schemas" )
-utils 				= require( "../../utils" )
+schemas 			= require( "../../schemas" )
+utils 				= require( "../../../utils" )
 
 ObjectId 			= mongoose.Types.ObjectId
 

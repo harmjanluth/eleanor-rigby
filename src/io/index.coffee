@@ -1,6 +1,6 @@
-datastore 			= require( "../datastore" )
-utils 				= require( "../utils" )
-ai 					= require( "../ai" )
+datastore 			= roquire( "datastore" )
+utils 				= roquire( "utils" )
+ai 					= roquire( "ai" )
 io 					= null
 
 exports.init = ( server ) ->
@@ -11,11 +11,10 @@ exports.init = ( server ) ->
 	# Setup socket.io
 	io.on "connection", ( socket ) ->
 		
-		console.log "STATUS [socket.io intialized]", socket.id
+		log.info "[socket.io intialized]", socket.id
 
 		# Send ready trigger
 		socket.emit "ready", {}
-
 		socket.empty_count = 0
 		socket.no_result_count = 0
 
@@ -25,12 +24,7 @@ exports.init = ( server ) ->
 			# Cleanup query
 			query = utils.sanitizeQuery( query )
 
-			console.log "query is", query
-
 			if query and query.length and typeof query is "string"
-
-				# Log this query to datastore
-				# datastore.logQuery( query )
 
 				# Find handle
 				# 
@@ -39,7 +33,9 @@ exports.init = ( server ) ->
 					if data
 
 						# Reset count
+						global.SOCKET.last_query = query
 						socket.no_result_count = 0
+						
 						result = data
 
 					else
@@ -47,13 +43,20 @@ exports.init = ( server ) ->
 						socket.no_result_count++
 						result = ai.noResult( socket.no_result_count )
 
-
 					# Emit result
+					log.info "[answer results]", result
 					socket.emit "answers", result
-
 			else
 
 				# Count questions
 				# 
 				socket.empty_count++
 				socket.emit "answers", ai.empty( socket.empty_count )
+
+
+		# Get feedback from last handle
+		socket.on "feedback", ( positive = null ) ->
+
+			if global.SOCKET.last_handle
+				
+				datastore.feedback.set( global.SOCKET.last_handle, positive, global.SOCKET.last_query )

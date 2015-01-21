@@ -1,7 +1,7 @@
 mongoose 			= require( "mongoose" )
 mongo 				= require( "mongodb" )
-schemas 			= require( "../schemas" )
-utils 				= require( "../../utils" )
+schemas 			= roquire( "datastore/schemas" )
+utils 				= roquire( "utils" )
 
 # Methods
 findByTerms 		= require( "./findByTerms" ).call

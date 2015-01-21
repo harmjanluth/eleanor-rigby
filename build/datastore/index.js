@@ -1,18 +1,20 @@
-var answer, connect, handle, logQuery;
+var answer, connect, feedback, handle, log;
 
 connect = require("./connect");
 
-logQuery = require("./logQuery");
+handle = require("./models/handle");
 
-handle = require("./handle");
+answer = require("./models/answer");
 
-answer = require("./answer");
+log = require("./models/log");
 
-exports.logQuery = logQuery.call;
+feedback = require("./models/feedback");
 
 exports.find = function(query, callback) {
+  log.set(query);
   return handle.find(query, function(data) {
     if (data && data[0]) {
+      global.SOCKET.last_handle = data[0]._id;
       if (data[0].answer_ids && data[0].answer_ids.length) {
         return answer.find(data[0].answer_ids, callback);
       } else if (data[0]["function"]) {

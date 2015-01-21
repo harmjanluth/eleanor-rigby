@@ -1,11 +1,22 @@
+# Setup better require
+global.roquire = (name) ->
+  require __dirname + "/" + name
+
 # Initialize
 app 				= require( "express" )()
 server				= require( "http" ).Server( app )
+
+bunyan 				= require("bunyan")
+global.log 			= bunyan.createLogger(name: "app")
 
 # Global
 io 					= require( "./io" ).init( server )
 utils 				= require( "./utils" )
 base_directory		= if process.env.IS_HEROKU then ( process.cwd() + "/build" ) else __dirname
+
+
+# Global collections
+global.SOCKET		= {}
 
 # Set port (heroku)
 app

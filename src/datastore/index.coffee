@@ -1,18 +1,25 @@
 # DATASTORE
 
 # Initialize
-connect 			= require( "./connect" )
-logQuery 			= require( "./logQuery" )
-handle 				= require( "./handle" )
-answer 				= require( "./answer" )
+connect 				= require( "./connect" )
 
-exports.logQuery 	= logQuery.call
+handle 					= require( "./models/handle" )
+answer 					= require( "./models/answer" )
+log 					= require( "./models/log" )
+feedback 				= require( "./models/feedback" )
+
 
 exports.find = ( query, callback ) ->
 
-	handle.find( query, (data) ->
+	# Save log for this query
+	log.set( query )
+
+	handle.find( query, ( data ) ->
 
 		if data && data[0]
+
+			# Store last handle for feedback
+			global.SOCKET.last_handle = data[0]._id
 
 			# Return answers
 			if data[0].answer_ids && data[0].answer_ids.length

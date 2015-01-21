@@ -1,10 +1,10 @@
 mongoose 			= require( "mongoose" )
 mongo 				= require( "mongodb" )
-schemas 			= require( "../schemas" )
+schemas 			= roquire( "datastore/schemas" )
 
 LogModel 			= mongoose.model( "Log", schemas.log )
 
-exports.call = ( query ) ->
+exports.set = ( query ) ->
 
 	lookup 		= LogModel.findOne( query : query, ( error, data ) ->
 

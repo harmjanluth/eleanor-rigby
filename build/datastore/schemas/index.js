@@ -1,4 +1,4 @@
-var Schema, answer, handle, log, mongoose;
+var Schema, answer, feedback, handle, log, mongoose;
 
 mongoose = require("mongoose");
 
@@ -10,8 +10,12 @@ answer = require("./answer");
 
 log = require("./log");
 
+feedback = require("./feedback");
+
 exports.handle = handle.call;
 
 exports.answer = answer.call;
 
 exports.log = log.call;
+
+exports.feedback = feedback.call;
